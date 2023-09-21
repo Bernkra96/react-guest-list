@@ -7,26 +7,24 @@ export default function App() {
   const [inputFirstName, setinputFirstName] = useState('');
   const [inputLastName, setinputLastName] = useState('');
   const [guestList, setGustList] = useState([]);
+  const [isChecked, setIsChecked] = useState(false);
 
   function addGust() {
-    guestList.push({
-      id: lastId,
-
-      firstName: inputFirstName,
-      lasstName: inputLastName,
-      attending: false,
-    });
-
-    lastId++;
-
     setinputFirstName('');
     setinputLastName('');
+    lastId++;
   }
 
-  const deleteByValue = (value) => {
-    guestList((oldValues) => {
-      return oldValues.filter((guest) => guest !== value);
+  const deleteById = (id) => {
+    setGustList((oldValues) => {
+      return oldValues.filter((fruit) => fruit.id !== id);
     });
+  };
+
+  const setAddening = (x) => {
+    if (!x) {
+      x(true);
+    }
   };
 
   return (
@@ -35,15 +33,29 @@ export default function App() {
         <h1>Gust list</h1>
       </header>
       <ol>
-        {guestList.map((gust) => {
-          return (
-            <li data-test-id="guest">
-              <div> {gust.firstName} </div>
-              <div> {gust.lasstName} </div>
-              <div> {gust.id} </div>
-            </li>
-          );
-        })}
+        {guestList.map((gust) => (
+          <li key={gust.id} data-test-id="guest">
+            <div> {gust.id} </div>
+            <div> {gust.firstName} </div>
+            <div> {gust.lasstName} </div>
+            <input
+              aria-label="<gust.firstName> <gust.lasstName> attending <isChecked>"
+              type="checkbox"
+              id="topping"
+              name="topping"
+              value="Paneer"
+              checked={gust.attending}
+              onChange={() => setAddening(gust.attending)}
+            />
+
+            <button
+              aria-label="Remove <gust.firstName> {gust.lasstName}"
+              onClick={() => deleteById(gust.id)}
+            >
+              Remove
+            </button>
+          </li>
+        ))}
       </ol>
 
       <div>
