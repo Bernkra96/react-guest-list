@@ -46,7 +46,8 @@ export default function App() {
         <h1>Gust list</h1>
       </header>
       <ol>
-        {GetSingleGust.map((guest) => (
+        {fetch(`${baseUrl}/guests`)}.map((guest) =>
+        {
           <li key={guest.id} data-test-id="guest">
             <div> {guest.id} </div>
             <div> {guest.firstName} </div>
@@ -68,7 +69,8 @@ export default function App() {
               Remove
             </button>
           </li>
-        ))}
+        }
+        )
       </ol>
 
       <div>
