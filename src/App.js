@@ -10,6 +10,12 @@ export default function App() {
   const [isChecked, setIsChecked] = useState(false);
 
   function addGust() {
+    guestList.push({
+      id: lastId,
+      firstName: inputFirstName,
+      lasstName: inputLastName,
+      attennging: false,
+    });
     setinputFirstName('');
     setinputLastName('');
     lastId++;
