@@ -1,103 +1,83 @@
 import './App.css';
-import { useState } from 'react';
-import {
-  AddGust,
-  BaseURl,
-  DeleteGust,
-  GetSingleGust,
-  UpdateGust,
-} from './ApiController';
-import styles from './index.css';
+import React from 'react';
 
-const baseUrl = 'http://localhost:4000';
-let lastId = 0;
 export default function App() {
-  const [inputFirstName, setinputFirstName] = useState('');
-  const [inputLastName, setinputLastName] = useState('');
-  const [guestList, setGustList] = useState([]);
-  const [isChecked, setIsChecked] = useState(false);
+  // const [inputFirstName, setInputFirstName] = React.useState('');
+  // const [inputLastName, setInputLastName] = React.useState('');
+  // const [guestList, setGustList] = useState([]);
+  // const [isChecked, setIsChecked] = useState(false);
 
-  function GguestList() {
-    fetch(`${baseUrl}/guests`);
-  }
+  // function addGust() {
+  // return AddGust(inputFirstName, inputLastName);
+  // }
 
-  function addGust() {
-    AddGust(inputFirstName, inputLastName);
+  // const deleteById = (id) => {
+  // return DeleteGust(id);
+  // };
 
-    setinputFirstName('');
-    setinputLastName('');
-  }
+  // function setAddening  (id)  {
+  // return UpdateGust(id);
+  // };
 
-  const deleteById = (id) => {
-    setGustList((oldValues) => {
-      return oldValues.filter((fruit) => fruit.id !== id);
-    });
-  };
+  //  const baseUrl = 'http://localhost:4000';
 
-  const setAddening = (x) => {
-    if (!x) {
-      x(true);
-    }
-  };
+  // async function BaseURl() {
+  // await fetch(baseUrl)
+  // .then((res) => res.json())
+  // .then((data) => console.log(data));
+  // }
+
+  // async function GuestList() {
+  // await fetch(`${baseUrl}/guests`);
+  // }
+
+  // async function GetSingleGust(id) {
+  /// await fetch(`${baseUrl}/guests/${id}`)
+  //  .then((res) => res.json())
+  //  .then((data) => console.log(data));
+  // }
+
+  // async function AddGust(firstName, lasstName) {
+  // await fetch(`${baseUrl}/guests`, {
+  // method: 'POST',
+  // headers: {
+  // 'Content-Type': 'application/json',
+  // },
+  //  body: JSON.stringify({ firstName: firstName, lastName: lasstName }),
+  // })
+  //  .then((res) => res.json())
+  //  .then((data) => console.log(data));
+  // }
+
+  //  async function UpdateGust(id) {
+  //    await fetch(`${baseUrl}/guests/${id}`, {
+  //      method: 'PUT',
+  //      headers: {
+  //        'Content-Type': 'application/json',
+  //      },
+  //      body: JSON.stringify({ attending: true }),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => console.log(data));
+  // }
+
+  // async function DeleteGust(id) {
+  // await fetch(`${baseUrl}/guests/${id}`, { method: 'DELETE' })
+  //  .then((res) => res.json())
+  //  .then((data) => console.log(data));
+  // }
 
   return (
-    <>
+    <body>
       <header>
         <h1>Gust list</h1>
       </header>
-      <ol>
-        {fetch(`${baseUrl}/guests`)}.map((guest) =>
-        {
-          <li key={guest.id} data-test-id="guest">
-            <div> {guest.id} </div>
-            <div> {guest.firstName} </div>
-            <div> {guest.lasstName} </div>
-            <input
-              aria-label="<gust.firstName> <gust.lasstName> attending <isChecked>"
-              type="checkbox"
-              id="topping"
-              name="topping"
-              value="Paneer"
-              checked={guest.attending}
-              onChange={() => setAddening(guest.attending)}
-            />
-
-            <button
-              aria-label="Remove <gust.firstName> {gust.lasstName}"
-              onClick={() => deleteById(guest.id)}
-            >
-              Remove
-            </button>
-          </li>
-        }
-        )
-      </ol>
-
-      <div>
-        <label>
-          First name
-          <input
-            type="text"
-            value={inputFirstName}
-            onChange={(e) => setinputFirstName(e.target.value)}
-          />
-        </label>
-        <label>
-          {' '}
-          Last name
-          <input
-            type="text"
-            value={inputLastName}
-            onChange={(e) => setinputLastName(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Return') {
-                addGust();
-              }
-            }}
-          />
-        </label>
-        <button onClick={addGust}> Activate Lasers</button>
-      </div>
-    </>
+      <main>
+        <h2>Add Gust</h2>
+        <div>
+          <ul>{listItems}</ul>
+        </div>
+      </main>
+    </body>
   );
 }

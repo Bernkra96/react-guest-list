@@ -1,28 +1,23 @@
 const baseUrl = 'http://localhost:4000';
 
-const id = 4;
-
-const firstName = 'Max';
-const lasstName = 'Musster ';
-
-function BaseURl() {
-  fetch(baseUrl)
+async function BaseURl() {
+  await fetch(baseUrl)
     .then((res) => res.json())
     .then((data) => console.log(data));
 }
 
-function GguestList() {
-  fetch(`${baseUrl}/guests`);
+async function GguestList() {
+  await fetch(`${baseUrl}/guests`);
 }
 
-function GetSingleGust(id) {
-  fetch(`${baseUrl}/guests/${id}`)
+async function GetSingleGust(id) {
+  await fetch(`${baseUrl}/guests/${id}`)
     .then((res) => res.json())
     .then((data) => console.log(data));
 }
 
-function AddGust(firstName, lasstName) {
-  fetch(`${baseUrl}/guests`, {
+async function AddGust(firstName, lasstName) {
+  await fetch(`${baseUrl}/guests`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -33,8 +28,8 @@ function AddGust(firstName, lasstName) {
     .then((data) => console.log(data));
 }
 
-function UpdateGust(id) {
-  fetch(`${baseUrl}/guests/${id}`, {
+async function UpdateGust(id) {
+  await fetch(`${baseUrl}/guests/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -45,8 +40,8 @@ function UpdateGust(id) {
     .then((data) => console.log(data));
 }
 
-function DeleteGust(id) {
-  fetch(`${baseUrl}/guests/${id}`, { method: 'DELETE' })
+async function DeleteGust(id) {
+  await fetch(`${baseUrl}/guests/${id}`, { method: 'DELETE' })
     .then((res) => res.json())
     .then((data) => console.log(data));
 }
