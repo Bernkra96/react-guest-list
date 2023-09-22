@@ -1,7 +1,15 @@
 import './App.css';
 import { useState } from 'react';
+import {
+  AddGust,
+  BaseURl,
+  DeleteGust,
+  GetSingleGust,
+  UpdateGust,
+} from './ApiController';
 import styles from './index.css';
 
+const baseUrl = 'http://localhost:4000';
 let lastId = 0;
 export default function App() {
   const [inputFirstName, setinputFirstName] = useState('');
@@ -9,10 +17,15 @@ export default function App() {
   const [guestList, setGustList] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
 
+  function GguestList() {
+    fetch(`${baseUrl}/guests`);
+  }
+
   function addGust() {
+    AddGust(inputFirstName, inputLastName);
+
     setinputFirstName('');
     setinputLastName('');
-    lastId++;
   }
 
   const deleteById = (id) => {
@@ -33,24 +46,24 @@ export default function App() {
         <h1>Gust list</h1>
       </header>
       <ol>
-        {guestList.map((gust) => (
-          <li key={gust.id} data-test-id="guest">
-            <div> {gust.id} </div>
-            <div> {gust.firstName} </div>
-            <div> {gust.lasstName} </div>
+        {GetSingleGust.map((guest) => (
+          <li key={guest.id} data-test-id="guest">
+            <div> {guest.id} </div>
+            <div> {guest.firstName} </div>
+            <div> {guest.lasstName} </div>
             <input
               aria-label="<gust.firstName> <gust.lasstName> attending <isChecked>"
               type="checkbox"
               id="topping"
               name="topping"
               value="Paneer"
-              checked={gust.attending}
-              onChange={() => setAddening(gust.attending)}
+              checked={guest.attending}
+              onChange={() => setAddening(guest.attending)}
             />
 
             <button
               aria-label="Remove <gust.firstName> {gust.lasstName}"
-              onClick={() => deleteById(gust.id)}
+              onClick={() => deleteById(guest.id)}
             >
               Remove
             </button>
