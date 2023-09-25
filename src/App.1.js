@@ -1,9 +1,12 @@
-import React from 'react';
+import Axios from 'axios';
+import React, { useEffect } from 'react';
+
+const api = Axios.create({ baseURL: 'http://localhost:4000' });
 
 export default function App() {
   const [inputFirstName, setInputFirstName] = React.useState('');
   const [inputLastName, setInputLastName] = React.useState('');
-  const [guestList, setGustList] = React.useState([]);
+  const [guestList, setGuestList] = React.useState([]);
   // const [isChecked, setIsChecked] = useState(false);
 
   // const deleteById = (id) => {
@@ -14,40 +17,52 @@ export default function App() {
   // return UpdateGust(id);
   // };
 
-  //  const baseUrl = 'http://localhost:4000';
-
   // async function BaseURl() {
   // await fetch(baseUrl)
   // .then((res) => res.json())
   // .then((data) => console.log(data));
   // }
 
-  // async function GuestList() {
-  // await fetch(`${baseUrl}/guests`)
-  // .then((res) => res.json())
-  // .then((res) => (res = guestList));
-  // }
+  function AddGust() {
+    api
+      .post(`/guests`, {
+        firstName: 'Karl',
+        lastName: 'Horky',
+      })
 
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+  const GustList = () => {
+    api
+      .get('/guests')
+      .then((response) => {
+        // handle success
+        console.log(response);
+        setGuestList(response.data);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      .finally(function () {
+        // always executed
+      });
+  };
+
+  useEffect(() => GustList(), []);
   // async function GetSingleGust(id) {
   /// await fetch(`${baseUrl}/guests/${id}`)
   //  .then((res) => res.json())
   //  .then((data) => console.log(data));
   // }
 
-  /// async function AddGust(firstName, lasstName) {
-  //   await fetch(`${baseUrl}/guests`, {
-  //    method: 'POST',
-  //     headers: {
-  //   'Content-Type': 'application/json',
-  //    },
-  //    body: JSON.stringify({ firstName: firstName, lastName: lasstName }),
-  //  }).then((res) => res.json());
-  // }
   function addGust() {
-    guestList.push({
-      firstName: inputFirstName,
-      lastName: inputLastName,
-    });
+    AddGust();
     setInputFirstName('');
     setInputLastName('');
   }
@@ -79,23 +94,20 @@ export default function App() {
         <h2>Add Gust</h2>
 
         <ol>
-          {
-            (guestList.map = (gust) => (
-              <li>
-                {' '}
-                <div>
-                  <p>
-                    {gust.id}
-                    {gust.firstName}
-                    {gust.lastName}
-                  </p>
-                </div>
-              </li>
-            ))
-          }
+          {guestList.map((gust) => (
+            <li key={`user-${gust.id}`}>
+              <div>
+                <p>
+                  {gust.id}
+                  {gust.firstName}
+                  {gust.lastName}
+                </p>
+              </div>
+            </li>
+          ))}
         </ol>
         <div>
-          <p>{guestList}'##</p>
+          <p>{GustList}'##</p>
         </div>
         <div>
           <label>
