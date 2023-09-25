@@ -7,7 +7,9 @@ async function BaseURl() {
 }
 
 async function GguestList() {
-  await fetch(`${baseUrl}/guests`);
+  await fetch(`${baseUrl}/guests`)
+    .then((res) => res.json())
+    .then((data) => console.log(data));
 }
 
 async function GetSingleGust(id) {
@@ -45,5 +47,8 @@ async function DeleteGust(id) {
     .then((res) => res.json())
     .then((data) => console.log(data));
 }
+
+await GguestList();
+await BaseURl();
 
 export { AddGust, BaseURl, DeleteGust, GetSingleGust, GguestList, UpdateGust };
