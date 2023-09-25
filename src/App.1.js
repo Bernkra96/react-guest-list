@@ -23,20 +23,6 @@ export default function App() {
   // .then((data) => console.log(data));
   // }
 
-  function AddGust() {
-    api
-      .post(`/guests`, {
-        firstName: 'Karl',
-        lastName: 'Horky',
-      })
-
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
   const GustList = () => {
     api
       .get('/guests')
@@ -55,35 +41,56 @@ export default function App() {
   };
 
   useEffect(() => GustList(), []);
+
+  function AddGust() {
+    api
+      .post(`/guests`, {
+        firstName: inputFirstName,
+        lastName: inputLastName,
+      })
+
+      .then(function (response) {
+        console.log(response);
+        setInputFirstName('');
+
+        setInputLastName('');
+      })
+
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  useEffect(() => GustList(), []);
+
+  function UpdateGust(x) {
+    api
+      .put(`/guests/${x}`, { attending: true })
+
+      .then(function (response) {
+        console.log(response);
+      })
+
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
   // async function GetSingleGust(id) {
   /// await fetch(`${baseUrl}/guests/${id}`)
   //  .then((res) => res.json())
   //  .then((data) => console.log(data));
   // }
 
-  function addGust() {
-    AddGust();
-    setInputFirstName('');
-    setInputLastName('');
+  function DeleteGust(x) {
+    api
+      .delete(`/guests/${x}`)
+      .then((x) => {
+        console.log(`Deleted post with ID ${x}`);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
-
-  //  async function UpdateGust(id) {
-  //    await fetch(`${baseUrl}/guests/${id}`, {
-  //      method: 'PUT',
-  //      headers: {
-  //        'Content-Type': 'application/json',
-  //      },
-  //      body: JSON.stringify({ attending: true }),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => console.log(data));
-  // }
-
-  // async function DeleteGust(id) {
-  // await fetch(`${baseUrl}/guests/${id}`, { method: 'DELETE' })
-  //  .then((res) => res.json())
-  //  .then((data) => console.log(data));
-  // }
 
   return (
     <body>
@@ -97,36 +104,45 @@ export default function App() {
           {guestList.map((gust) => (
             <li key={`user-${gust.id}`}>
               <div>
-                <p>
-                  {gust.id}
-                  {gust.firstName}
-                  {gust.lastName}
-                </p>
+                <p>{gust.id} </p>
+                <p>{gust.firstName} </p>
+                <p>{gust.lastName} </p>
+                <input
+                  type="checkbox"
+                  checked={gust.attending}
+                  onChange={UpdateGust(gust.id)}
+                />
+                <input
+                  type="button"
+                  value="Delade Gust"
+                  onClick={DeleteGust(gust.id)}
+                />
               </div>
             </li>
           ))}
         </ol>
+
         <div>
-          <p>{GustList}'##</p>
-        </div>
-        <div>
-          <label>
-            First name
-            <input
-              name="name"
-              value={inputFirstName}
-              onChange={(e) => setInputFirstName(e.target.value)}
-            />
-          </label>
-          <label>
-            Last name
-            <input
-              name="name"
-              value={inputLastName}
-              onChange={(e) => setInputLastName(e.target.value)}
-            />
-          </label>
-          <input type="submit" value="Add Gust" onClick={addGust} />
+          <form>
+            <label>
+              First name
+              <input
+                name="name"
+                value={inputFirstName}
+                onChange={(e) => setInputFirstName(e.target.value)}
+              />
+            </label>
+            <label>
+              Last name
+              <input
+                name="name"
+                value={inputLastName}
+                onChange={(e) => setInputLastName(e.target.value)}
+              />
+            </label>
+
+            <input type="button" value="Add Gust" onClick={AddGust} />
+          </form>
         </div>
       </main>
     </body>
